@@ -9,6 +9,8 @@
 
 // ** MySQL 设置 - 具体信息来自您正在使用的主机 ** //
 /** WordPress数据库的名称 */
+define('WP_CACHE', true);
+define( 'WPCACHEHOME', '/var/www/html/wordpressBlog/wp-content/plugins/wp-super-cache/' );
 define('DB_NAME', 'wordpress');
 
 /* MySQL数据库用户名 */
