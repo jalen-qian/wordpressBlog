@@ -18,7 +18,40 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
-
+	<?php
+	if (is_home()){
+		$keywords = "你网站首页的关键字，自己修改吧";
+		$description = "你网站首页的描述，自己修改吧";
+	}
+	elseif (is_single()){
+		$tags = wp_get_post_tags($post->ID);
+		foreach ($tags as $tag){
+			$keywords = $keywords.$tag->name.",";
+		}
+		$keywords = rtrim($keywords, ', ');
+		if($post->post_excerpt){
+			$description = $post->post_excerpt;
+		}else{
+			$description = mb_strimwidth(strip_tags(apply_filters('the_content',$post->post_content)),0,200);
+		}
+	}
+	elseif (is_page()){
+		$keywords = get_post_meta($post->ID, "keywords", true);
+		$description = get_post_meta($post->ID, "description", true);
+	}
+	elseif (is_category()){
+		$keywords = single_cat_title('', false);
+		$description = category_description();
+	}
+	elseif (is_tag()){
+		$keywords = single_tag_title('', false);
+		$description = tag_description();
+	}
+	$keywords = trim(strip_tags($keywords));
+	$description = trim(strip_tags($description));
+	?>
+	<meta name="keywords" content="<?php echo $keywords; ?>" />
+	<meta name="description" content="<?php echo $description; ?>" />
 <?php wp_head(); ?>
 </head>
 
